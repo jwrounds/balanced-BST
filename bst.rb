@@ -8,7 +8,10 @@ class Node
 end
 
 class Tree
+  attr_accessor :root
   def initialize array
+    array.uniq!
+    array.sort!
     @root = self.build_tree(array)
   end
 
@@ -24,8 +27,18 @@ class Tree
     return root
   end
 
-  def insert value
+  def insert value, node = self.root
 
+    if node == nil
+      return Node.new(value)
+    end
+    if value < node.data
+      node.left = self.insert(value, node.left)
+    elsif value > node.data
+      node.right = self.insert(value, node.right)
+    end
+
+    return node
   end
 
   def delete value
@@ -76,4 +89,6 @@ class Tree
 end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7])
+tree.insert 8
+
 tree.pretty_print
