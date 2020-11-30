@@ -107,8 +107,26 @@ class Tree
     end
   end
 
-  def level_order
+  def level_order node = self.root
+    results = []
+    queue = []
+    queue.push node
+    while queue.length > 0 
+      current = queue.shift
+      results << current.data
+      queue.push current.left unless current.left == nil
+      queue.push current.right unless current.right == nil
+    end
+    return results
+  end
 
+  def recursive_level_order node = self.root, queue = [], results = []
+    return if node == nil
+    results << node.data
+    queue.push node.left unless node.left == nil
+    queue.push node.right unless node.right == nil
+    self.recursive_level_order(queue.shift, queue, results)
+    return results
   end
 
   def preorder
@@ -148,5 +166,5 @@ end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26])
 tree.pretty_print
-found = tree.find 6
-p found, found.data
+p tree.recursive_level_order
+p tree.level_order
