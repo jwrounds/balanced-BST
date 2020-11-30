@@ -95,8 +95,16 @@ class Tree
     return node
   end
 
-  def find value
-    
+  def find value, node = self.root
+    return nil if node == nil
+
+    if value == node.data
+      return node
+    elsif value < node.data
+      self.find(value, node.left)
+    else
+      self.find(value, node.right)
+    end
   end
 
   def level_order
@@ -140,9 +148,5 @@ end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26])
 tree.pretty_print
-
-tree.delete 2
-tree.delete 6
-tree.delete 14
-
-tree.pretty_print
+found = tree.find 6
+p found, found.data
