@@ -129,16 +129,28 @@ class Tree
     return results
   end
 
-  def preorder
-
+  def preorder node = self.root, results = []
+    return if node == nil
+    results << node.data
+    self.preorder node.left, results
+    self.preorder node.right, results
+    return results
   end
 
-  def inorder
-
+  def inorder node = self.root, results = []
+    return if node == nil
+    self.inorder node.left, results
+    results << node.data
+    self.inorder node.right, results
+    return results
   end
 
-  def postorder
-
+  def postorder node = self.root, results = []
+    return if node == nil
+    self.postorder node.left, results
+    self.postorder node.right, results
+    results << node.data
+    return results
   end
 
   def height node
@@ -166,5 +178,4 @@ end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26])
 tree.pretty_print
-p tree.recursive_level_order
-p tree.level_order
+p tree.postorder
