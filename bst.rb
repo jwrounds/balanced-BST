@@ -153,12 +153,34 @@ class Tree
     return results
   end
 
-  def height node
-
+  def height node, height = 0, results = []
+    if node == nil
+      # add height count to results array when leaf is reached
+      return results << height 
+    end
+    # count each node visited via preorder traversal
+    height += 1
+    self.height node.left, height, results
+    self.height node.right, height, results
+    # subtract one from largest height count so result reflects number of connections, not nodes 
+    return results.max - 1
   end
 
-  def depth node
+  def height_of_value value
+    node = self.find value
+    self.height node
+  end
 
+  def depth node, root = self.root, depth = 0
+    return depth if node.data == root.data 
+    depth += 1
+    return self.depth(node, root.left, depth) if node.data < root.data
+    return self.depth(node, root.right, depth) if node.data > root.data
+  end
+
+  def depth_of_value value
+    node = self.find value
+    self.depth node
   end
 
   def balanced? tree
@@ -176,6 +198,6 @@ class Tree
   end
 end
 
-tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26])
+tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26, 27, 28])
 tree.pretty_print
-p tree.postorder
+p tree.depth_of_value 28
