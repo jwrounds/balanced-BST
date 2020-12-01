@@ -156,7 +156,8 @@ class Tree
   def height node, height = 0, results = []
     if node == nil
       # add height count to results array when leaf is reached
-      return results << height 
+      results << height
+      return height
     end
     # count each node visited via preorder traversal
     height += 1
@@ -183,12 +184,29 @@ class Tree
     self.depth node
   end
 
-  def balanced? tree
+  def balanced? node = self.root
+    # balanced tree: difference between heights of left subtree and right subtree of every node is not more than 1
 
+    return if node == nil
+    
+    # check height of left subtree
+    left_height = self.height(node.left)
+    #check height of right subtree
+    right_height = self.height(node.right)
+    # compare heights
+    difference = left_height - right_height
+    if difference.abs > 1
+      return false
+    else 
+      self.balanced?(node.left)
+      self.balanced?(node.right)
+    end
+    return true
   end
 
   def balance tree
-
+    array = self.level_order
+    self.root = self.build_tree array
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -200,4 +218,11 @@ end
 
 tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26, 27, 28])
 tree.pretty_print
-p tree.depth_of_value 28
+tree.insert 100
+tree.insert 110
+tree.insert 130
+tree.insert 102
+tree.pretty_print
+p tree.balanced?
+tree.balance tree
+tree.pretty_print
