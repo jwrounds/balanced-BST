@@ -10,14 +10,15 @@ end
 class Tree
   attr_accessor :root
   def initialize array
-    array.uniq!
-    array.sort!
     @root = self.build_tree(array)
   end
 
   def build_tree array, start = 0, finish = array.length - 1
-    return nil if start > finish
+    array.uniq!
+    array.sort!
     
+    return nil if start > finish
+
     mid = (start + finish) / 2
     root = Node.new(array[mid])
 
