@@ -204,7 +204,7 @@ class Tree
     return true
   end
 
-  def balance tree
+  def balance 
     array = self.level_order
     self.root = self.build_tree array
   end
@@ -216,13 +216,23 @@ class Tree
   end
 end
 
-tree = Tree.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 20, 21, 23, 26, 27, 28])
-tree.pretty_print
-tree.insert 100
-tree.insert 110
-tree.insert 130
-tree.insert 102
+array = Array.new(15) {rand(1..100)}
+tree = Tree.new array
 tree.pretty_print
 p tree.balanced?
-tree.balance tree
+p tree.preorder
+p tree.inorder
+p tree.postorder
+tree.insert rand(100..200)
+tree.insert rand(100..200)
+tree.insert rand(100..200)
+tree.insert rand(100..200)
+tree.insert rand(100..200)
 tree.pretty_print
+p tree.balanced?
+tree.balance 
+tree.pretty_print
+p tree.balanced?
+p tree.preorder
+p tree.inorder
+p tree.postorder
